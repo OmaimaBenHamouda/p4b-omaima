@@ -9,18 +9,23 @@ import 'objects/platform_block.dart';
 import 'objects/star.dart';
 import 'package:flame/events.dart';
 import 'overlays/hud.dart';
-class EmberQuestGame extends FlameGame
+import 'package:flame_audio/flame_audio.dart'; // Per HasAudio
+
+class EmberQuestGame extends FlameGame 
     with HasCollisionDetection, HasKeyboardHandlerComponents {
+
   late double lastBlockXPosition = 0.0;
   late UniqueKey lastBlockKey;
   late EmberPlayer _ember;
   double objectSpeed = 0.0;
   int starsCollected = 0;
   int health = 3;
-
+  bool isSoundOn = true;
+  static const String backgroundMusic = 'background_music.mp3';
+  int currentLevel = 1; // Nivell actual  
   @override
 Color backgroundColor() {
-  return const Color.fromARGB(255, 173, 223, 247);
+  return const Color.fromARGB(255, 189, 221, 186);
 }
 
     void initializeGame(bool loadHud) {
@@ -46,15 +51,21 @@ Color backgroundColor() {
   Future<void> onLoad() async {
     await images.loadAll([
       'block.png',
-      'ember.png',
+      'gorila.png',
       'ground.png',
       'heart_half.png',
       'heart.png',
-      'star.png',
+      'platano.png',
       'water_enemy.png',
     ]);
+
     
     camera.viewfinder.anchor = Anchor.topLeft;
+
+    await FlameAudio.audioCache.loadAll([
+      backgroundMusic,
+    ]);
+    _playBackgroundMusic();
     initializeGame(true);
   }
 
@@ -110,4 +121,26 @@ void update(double dt) {
   }
   super.update(dt);
 }
+
+ 
+  void toggleSound(bool value) {
+    isSoundOn = value;
+    
+    if (isSoundOn) {
+      _playBackgroundMusic();
+    } else {
+      FlameAudio.bgm.stop();
+    }
+  }
+
+void _playBackgroundMusic() {
+  if (isSoundOn) {
+    FlameAudio.bgm.stop(); // Detener cualquier música en reproducción
+    FlameAudio.bgm.loop(backgroundMusic, volume: 0.5); // Solo usar loop()
+  }
+}
+
+
+
+
 }

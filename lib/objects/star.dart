@@ -19,7 +19,7 @@ class Star extends SpriteComponent
 
   @override
   void onLoad() {
-    final starImage = game.images.fromCache('star.png');
+    final starImage = game.images.fromCache('platano.png');
     sprite = Sprite(starImage);
     position = Vector2(
       (gridPosition.x * size.x) + xOffset + (size.x / 2),
