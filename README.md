@@ -21,3 +21,6 @@ samples, guidance on mobile development, and a full API reference.
 4
 
 ![alt text](image-1.png)
+
+5
+![alt text](image-2.png)
