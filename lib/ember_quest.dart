@@ -11,6 +11,8 @@ import 'objects/star.dart';
 
 
 class EmberQuestGame extends FlameGame {
+  late double lastBlockXPosition = 0.0;
+  late UniqueKey lastBlockKey;
   late EmberPlayer _ember;
   double objectSpeed = 0.0;
   @override
@@ -39,9 +41,31 @@ void loadGameSegments(int segmentIndex, double xPositionOffset) {
     for (final block in segments[segmentIndex]) {
       switch (block.blockType) {
         case GroundBlock:
+                    world.add(
+                GroundBlock(
+                  gridPosition: block.gridPosition,
+                  xOffset: xPositionOffset,
+                ),
+              );
         case PlatformBlock:
-        case Star:
+                    add(PlatformBlock(
+                gridPosition: block.gridPosition,
+                xOffset: xPositionOffset,
+              ));
+        case Star: 
+         world.add(
+                      Star(
+                        gridPosition: block.gridPosition,
+                        xOffset: xPositionOffset,
+                      ),
+                    );
         case WaterEnemy:
+                      world.add(
+                      WaterEnemy(
+                      gridPosition: block.gridPosition,
+                      xOffset: xPositionOffset,
+                      ),
+                    );
         case PlatformBlock:
                     add(PlatformBlock(
                       gridPosition: block.gridPosition,
