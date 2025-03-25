@@ -127,20 +127,25 @@ void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
 if (other is WaterEnemy) {
   hit();
 }
+if (other is Star) {
+  other.removeFromParent();
+  game.starsCollected++;
+}
 }
 // This method runs an opacity effect on ember
 // to make it blink.
 void hit() {
   if (!hitByEnemy) {
+    game.health--;
     hitByEnemy = true;
   }
   add(
     OpacityEffect.fadeOut(
-    EffectController(
-      alternate: true,
-      duration: 0.1,
-      repeatCount: 6,
-    ),
+      EffectController(
+        alternate: true,
+        duration: 0.1,
+        repeatCount: 5,
+      ),
     )..onComplete = () {
       hitByEnemy = false;
     },

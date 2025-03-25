@@ -8,13 +8,15 @@ import 'objects/ground_block.dart';
 import 'objects/platform_block.dart';
 import 'objects/star.dart';
 import 'package:flame/events.dart';
-
+import 'overlays/hud.dart';
 class EmberQuestGame extends FlameGame
     with HasCollisionDetection, HasKeyboardHandlerComponents {
   late double lastBlockXPosition = 0.0;
   late UniqueKey lastBlockKey;
   late EmberPlayer _ember;
   double objectSpeed = 0.0;
+  int starsCollected = 0;
+  int health = 3;
   @override
 Color backgroundColor() {
   return const Color.fromARGB(255, 173, 223, 247);
@@ -88,5 +90,6 @@ void loadGameSegments(int segmentIndex, double xPositionOffset) {
       position: Vector2(128, canvasSize.y -128),
     );
     world.add(_ember);
+    camera.viewport.add(Hud());
   }
 }
