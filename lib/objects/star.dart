@@ -45,5 +45,8 @@ class Star extends SpriteComponent
     position += velocity * dt;
     if (position.x < -size.x) removeFromParent();
     super.update(dt);
+    if (position.x < -size.x || game.health <= 0) {
+      removeFromParent();
+}
   }
 }

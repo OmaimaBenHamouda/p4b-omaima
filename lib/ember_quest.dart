@@ -17,11 +17,31 @@ class EmberQuestGame extends FlameGame
   double objectSpeed = 0.0;
   int starsCollected = 0;
   int health = 3;
+
   @override
 Color backgroundColor() {
   return const Color.fromARGB(255, 173, 223, 247);
 }
-  
+
+    void initializeGame(bool loadHud) {
+  // Assume that size.x < 3200
+  final segmentsToLoad = (size.x / 640).ceil();
+  segmentsToLoad.clamp(0, segments.length);
+
+  for (var i = 0; i <= segmentsToLoad; i++) {
+    loadGameSegments(i, (640 * i).toDouble());
+  }
+
+  _ember = EmberPlayer(
+    position: Vector2(128, canvasSize.y - 128),
+  );
+  add(_ember);
+  if (loadHud) {
+    add(Hud());
+  }
+}
+
+
 @override
   Future<void> onLoad() async {
     await images.loadAll([
@@ -35,7 +55,7 @@ Color backgroundColor() {
     ]);
     
     camera.viewfinder.anchor = Anchor.topLeft;
-    initializeGame();
+    initializeGame(true);
   }
 
 
@@ -77,19 +97,17 @@ void loadGameSegments(int segmentIndex, double xPositionOffset) {
     }
   }
 
-    void initializeGame() {
-    // Assume that size.x < 3200
-    final segmentsToLoad = (size.x / 640).ceil();
-    segmentsToLoad.clamp(0, segments.length);
 
-    for (var i = 0; i <= segmentsToLoad; i++) {
-      loadGameSegments(i, (640 * i).toDouble());
-    }
-
-    _ember = EmberPlayer(
-      position: Vector2(128, canvasSize.y -128),
-    );
-    world.add(_ember);
-    camera.viewport.add(Hud());
+  void reset() {
+  starsCollected = 0;
+  health = 3;
+  initializeGame(false);
+}
+@override
+void update(double dt) {
+  if (health <= 0) {
+    overlays.add('GameOver');
   }
+  super.update(dt);
+}
 }

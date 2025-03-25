@@ -92,6 +92,14 @@ if (position.x + 64 >= game.size.x / 2 && horizontalDirection > 0) {
 
 position += velocity * dt;
 super.update(dt);
+// If ember fell in pit, then game over.
+if (position.y > game.size.y + size.y) {
+  game.health = 0;
+}
+
+if (game.health <= 0) {
+  removeFromParent();
+}
   }
 
 

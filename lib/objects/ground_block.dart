@@ -53,5 +53,9 @@ class GroundBlock extends SpriteComponent with HasGameReference<EmberQuestGame> 
     }
 
     super.update(dt);
+    if (game.health <= 0) {
+      removeFromParent();
+}
   }
+  
 }
