@@ -13,7 +13,8 @@ import 'package:flame_audio/flame_audio.dart'; // Per HasAudio
 
 class EmberQuestGame extends FlameGame 
     with HasCollisionDetection, HasKeyboardHandlerComponents {
-
+    
+  bool _userInteracted = false; // Flag para verificar la interacción del usuario
   late double lastBlockXPosition = 0.0;
   late UniqueKey lastBlockKey;
   late EmberPlayer _ember;
@@ -62,11 +63,11 @@ Color backgroundColor() {
     
     camera.viewfinder.anchor = Anchor.topLeft;
 
-    await FlameAudio.audioCache.loadAll([
-      backgroundMusic,
-    ]);
-    _playBackgroundMusic();
-    initializeGame(true);
+   await FlameAudio.audioCache.loadAll([
+    backgroundMusic,
+  ]);
+
+  initializeGame(true);
   }
 
 
@@ -136,11 +137,21 @@ void update(double dt) {
 void _playBackgroundMusic() {
   if (isSoundOn) {
     FlameAudio.bgm.stop(); // Detener cualquier música en reproducción
-    FlameAudio.bgm.loop(backgroundMusic, volume: 0.5); // Solo usar loop()
+    FlameAudio.bgm.play(backgroundMusic, volume: 0.5); // Reproducir con loop activado
+  }
+}
+// Método para iniciar la música después de la interacción
+void _startMusicAfterInteraction() {
+  if (!_userInteracted) {
+    _userInteracted = true;
+    _playBackgroundMusic();
   }
 }
 
-
-
+// Detectar cuando el usuario toca la pantalla
+@override
+void onTapDown(TapDownEvent event) {
+  _startMusicAfterInteraction();
+}
 
 }

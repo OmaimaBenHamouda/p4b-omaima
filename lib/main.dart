@@ -7,7 +7,6 @@ import 'overlays/game_over.dart';
 import 'overlays/main_menu.dart';
 import 'overlays/start_menu.dart';
 import 'overlays/settings_menu.dart';
-import 'overlays/settings_menu.dart';
 import 'overlays/level_selector.dart';
 
 void main() {  
